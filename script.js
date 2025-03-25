@@ -1,53 +1,99 @@
-// script.js
+function atualizarPedidos() {
+    const quantidade = document.getElementById('quantidadePedidos').value;
+    const pedidosContainer = document.getElementById('pedidosContainer');
+    
+    // Limpa a área de pedidos
+    pedidosContainer.innerHTML = '';
+
+    // Cria novos campos de pedido
+    for (let i = 0; i < quantidade; i++) {
+        const pedidoSection = document.createElement('div');
+        pedidoSection.classList.add('pedido-section');
+        
+        // Adiciona as seções de pedido (espeto, arroz, acompanhamentos)
+        pedidoSection.innerHTML = `
+            <h3>Pedido ${i + 1}</h3>
+            <h4>Escolha o Espeto:</h4>
+            <label><input type="radio" name="espeto_${i}" class="espeto" data-nome="Gado" data-preco="18"> Gado - R$18,00</label><br>
+            <label><input type="radio" name="espeto_${i}" class="espeto" data-nome="Frango" data-preco="15"> Frango - R$15,00</label><br>
+            <label><input type="radio" name="espeto_${i}" class="espeto" data-nome="Toscana" data-preco="15"> Toscana - R$15,00</label><br>
+            <label><input type="radio" name="espeto_${i}" class="espeto" data-nome="Gado e Toscana" data-preco="15"> Gado e Toscana - R$15,00</label><br>
+            <label><input type="radio" name="espeto_${i}" class="espeto" data-nome="Gado e Frango" data-preco="15"> Gado e Frango - R$15,00</label><br>
+            <label><input type="radio" name="espeto_${i}" class="espeto" data-nome="Toscana e Frango" data-preco="15"> Toscana e Frango - R$15,00</label><br>
+            <label><input type="radio" name="espeto_${i}" class="espeto" data-nome="Gado, Frango e Toscana" data-preco="15"> Gado, Frango e Toscana - R$15,00</label><br>
+            
+            <h4>Escolha o Arroz:</h4>
+            <label><input type="radio" name="arroz_${i}" class="arroz" data-nome="Baião de Dois"> Baião de Dois</label><br>
+            <label><input type="radio" name="arroz_${i}" class="arroz" data-nome="Arroz de Cenoura"> Arroz de Cenoura</label><br>
+            <label><input type="radio" name="arroz_${i}" class="arroz" data-nome="Sem arroz"> Sem Arroz</label><br>
+            
+            <h4>Escolha os Acompanhamentos:</h4>
+            <label><input type="checkbox" class="acompanhamentos" data-nome="Salada"> Salada</label><br>
+            <label><input type="checkbox" class="acompanhamentos" data-nome="Purê de Batata"> Purê de Batata</label><br>
+            <label><input type="checkbox" class="acompanhamentos" data-nome="Farofa"> Farofa</label>
+            <label><input type="checkbox" class="acompanhamentos" data-nome="Vatapá de Camarão"> Vatapá de Camarão sem pimenta</label><br>
+            <label><input type="checkbox" class="acompanhamentos" data-nome="Vatapá de Camarão"> Vatapá de Camarão com pimenta</label><br>
+        `;
+        
+        pedidosContainer.appendChild(pedidoSection);
+    }
+}
 
 function finalizarPedido() {
-    const espetosSelecionados = [];
+    const espetoSelecionado = [];
     const arrozSelecionado = [];
-    const acompanhamentosSelecionados = [];
+    const acompanhamentosSelecionado = [];
+    let algumItemSelecionado = false;
+    let mensagem = "Olá, gostaria de fazer um pedido no Espetinho Delivery ZD:\n";
 
-    // Coletar os espetos selecionados
-    document.querySelectorAll('.espeto:checked').forEach(input => {
-        espetosSelecionados.push({ nome: input.getAttribute('data-nome'), preco: input.getAttribute('data-preco') });
+    // Iterando sobre todos os pedidos
+    const pedidos = document.querySelectorAll('.pedido-section');
+    pedidos.forEach((pedido, index) => {
+        let espeto = [];
+        let arroz = [];
+        let acompanhamentos = [];
+
+        // Coletando os itens selecionados de espeto
+        pedido.querySelectorAll('.espeto:checked').forEach(function(espetoItem) {
+            espeto.push(espetoItem.getAttribute('data-nome'));
+            algumItemSelecionado = true;
+        });
+
+        // Coletando os itens selecionados de arroz
+        pedido.querySelectorAll('.arroz:checked').forEach(function(arrozItem) {
+            arroz.push(arrozItem.getAttribute('data-nome'));
+            algumItemSelecionado = true;
+        });
+
+        // Coletando os itens selecionados de acompanhamentos
+        pedido.querySelectorAll('.acompanhamentos:checked').forEach(function(acompanhamentoItem) {
+            acompanhamentos.push(acompanhamentoItem.getAttribute('data-nome'));
+            algumItemSelecionado = true;
+        });
+
+        // Verificando se pelo menos uma opção foi selecionada em cada categoria
+        if (espeto.length === 0 || arroz.length === 0 || acompanhamentos.length === 0) {
+            alert('Você deve escolher ao menos um espeto, um arroz e um acompanhamento para finalizar o pedido!');
+            return;
+        }
+
+        // Adicionando os detalhes do pedido na mensagem
+        mensagem += `\n\nPedido ${index + 1}:\n`;
+        mensagem += `Espetos: ${espeto.join(", ")}\n`;
+        mensagem += `Arroz: ${arroz.join(", ")}\n`;
+        mensagem += `Acompanhamentos: ${acompanhamentos.join(", ")}\n`;
     });
 
-    // Coletar os arrozes selecionados
-    document.querySelectorAll('.arroz:checked').forEach(input => arrozSelecionado.push(input.getAttribute('data-nome')));
-
-    // Coletar os acompanhamentos selecionados
-    document.querySelectorAll('.acompanhamentos:checked').forEach(input => acompanhamentosSelecionados.push(input.getAttribute('data-nome')));
-
-    if (espetosSelecionados.length === 0) {
-        alert('Por favor, selecione ao menos um espeto!');
+    // Verificando se algum item foi selecionado
+    if (!algumItemSelecionado) {
+        alert('Você deve escolher ao menos um item em cada categoria para finalizar o pedido!');
         return;
     }
 
-    let mensagem = 'Pedido:\n';
-
-    espetosSelecionados.forEach(espetinho => {
-        mensagem += `${espetinho.nome} (R$${espetinho.preco})\n`;
-    });
-
-    if (arrozSelecionado.length > 0) {
-        mensagem += `Arroz: ${arrozSelecionado.join(', ')}\n`;
-    }
-    if (acompanhamentosSelecionados.length > 0) {
-        mensagem += `Acompanhamentos: ${acompanhamentosSelecionados.join(', ')}\n`;
-    }
-
-    // Cálculo do total
-    let total = 0;
-    espetosSelecionados.forEach(espetinho => {
-        total += parseFloat(espetinho.preco);
-    });
-
-    // Adiciona a entrega (R$2,00 de entrega se o total for abaixo de R$30,00)
-    const entrega = total >= 30 ? 0 : 2;
-    mensagem += `\nEntrega: R$${entrega},00\n`;
-    mensagem += `Total: R$${total + entrega},00`;
-
-    // Gerar o link do WhatsApp
-    const whatsappLink = `https://wa.me/5598985349559?text=${encodeURIComponent(mensagem)}`;
-
-    // Redireciona para o WhatsApp
-    window.location.href = whatsappLink;
+    // Encaminhando para o WhatsApp com a mensagem
+    const numeroWhatsApp = "5511999999999"; // Substitua pelo seu número de WhatsApp (com DDD)
+    const urlWhatsApp = `https://wa.me/${5598985349559}?text=${encodeURIComponent(mensagem)}`;
+    
+    // Abrir o WhatsApp
+    window.open(urlWhatsApp, "_blank");
 }

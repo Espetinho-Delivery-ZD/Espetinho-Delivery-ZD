@@ -1,162 +1,162 @@
-/* style.css */
-
-/* Layout básico */
+/* Resetando o estilo básico */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Corpo do site */
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #333; /* Fundo preto */
-    color: #fff; /* Texto branco */
+    font-family: Arial, sans-serif;
+    background-color: #ffdc13; /* Cor de fundo clara */
+    color: #ffdc13; /* Cor do texto */
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
-    text-align: center;
-    flex-direction: column;
+    justify-content: center; /* Centraliza o conteúdo horizontalmente */
+    align-items: flex-start; /* Centraliza o conteúdo verticalmente no topo */
+    height: 100vh;
+    padding: 20px; /* Garante um espaçamento da borda da tela */
+    overflow-x: hidden; /* Previne o conteúdo de sair horizontalmente */
+}
+
+/* Container principal */
+.container {
+    width: 100%;
+    max-width: 900px; /* Limita a largura para não ficar muito grande em telas grandes */
+    margin: 0 auto;
+    background-color: #000000;
     padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(85, 85, 85, 0.1);
+    text-align: center; /* Centraliza o texto dentro do container */
+    overflow: hidden; /* Garante que o conteúdo não ultrapasse os limites do container */
 }
 
-h1 {
-    color: #ff6600; /* Cor laranja */
-    font-size: 36px;
+/* Cabeçalho */
+header {
+    margin-bottom: 40px;
+}
+
+header h1 {
+    font-size: 2em;
+    color: #ffdc13; /* Cor para o título */
     margin-bottom: 20px;
-    text-align: center;
 }
 
+header .logo {
+    max-width: 400px;
+    margin-top: 10px;
+}
+
+/* Seção de Quantidade de Pedidos */
+.pedido-quantidade {
+    margin-bottom: 10px;
+}
+
+.pedido-quantidade h3 {
+    font-size: 1.2em;
+    color: #ffdc13; /* Cor do subtítulo */
+}
+
+.pedido-quantidade input {
+    width: 40px;
+    padding: 5px;
+    font-size: 1.2em;
+    text-align: center;
+    border: 3px solid #ffdc13;
+    border-radius: 5px;
+}
+
+/* Seção de Pedido (Espeto, Arroz, Acompanhamentos) */
+.pedido-section {
+    margin-bottom: 25px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.05);
+}
+
+/* Seção de Espetos */
+.pedido-section.espeto {
+    background-color: #f39c12; /* Fundo amarelo suave para espeto */
+}
+
+.pedido-section.espeto h3 {
+    color: #000000; /* Cor do título das seções */
+}
+
+/* Seção de Arroz */
+.pedido-section.arroz {
+    background-color: #1abc9c; /* Fundo verde suave para arroz */
+}
+
+.pedido-section.arroz h3 {
+    color: #000000; /* Cor do título das seções */
+}
+
+/* Seção de Acompanhamentos */
+.pedido-section.acompanhamentos {
+    background-color: #3498db; /* Fundo azul suave para acompanhamentos */
+}
+
+.pedido-section.acompanhamentos h3 {
+    color: #000000; /* Cor do título das seções */
+}
+
+/* Títulos das seções */
+.pedido-section h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+/* Títulos dos itens */
+.pedido-section label {
+    display: block;
+    margin: 1px 0;
+    font-size: 1em;
+    color: #fff; /* Cor branca para os itens dentro das seções */
+}
+
+.pedido-section input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.2);
+}
+
+/* Botão de Finalização */
 button {
-    padding: 12px 25px;
-    background-color: #ff6600; /* Laranja */
-    color: white;
+    width: 100%;
+    padding: 12px;
+    background-color: #ffdc13; /* Cor do botão (vermelho) */
+    color: #000000;
+    font-size: 1.2em;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 18px;
     margin-top: 20px;
     transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #e65c00; /* Cor laranja mais escura para o efeito hover */
-}
-
-button:disabled {
-    background-color: #ccc; /* Botão desabilitado */
-}
-
-/* Estilo das seções de pedido */
-.pedido-section {
-    background-color: #444; /* Fundo escuro para as seções */
-    border-radius: 8px;
-    margin-bottom: 20px;
-    padding: 20px;
-    width: 100%;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.pedido-section h3 {
-    color: #ff6600;
-    font-size: 22px;
-    margin-bottom: 15px;
-    text-align: left;
-}
-
-label {
-    font-size: 18px;
-    display: block;
-    margin: 10px 0;
-    cursor: pointer;
-}
-
-input[type="checkbox"] {
-    margin-right: 10px;
-}
-
-/* Box do pedido */
-.pedido-info {
-    font-size: 18px;
-    margin: 15px 0;
-}
-
-/* Estilo para o link do WhatsApp */
-#finalizarPedido {
-    font-size: 20px;
-    padding: 15px 30px;
-    border-radius: 5px;
-}
-
-h2 {
-    color: #ff6600;
-    margin-top: 30px;
-    font-size: 24px;
-}
-
-/* Rodapé */
-footer {
-    margin-top: 30px;
-    color: #ccc;
-    font-size: 14px;
-    text-align: center;
-}
-
-footer a {
-    color: #ff6600;
-    text-decoration: none;
-}
-
-footer a:hover {
-    text-decoration: underline;
+    background-color: #e67e22; /* Cor mais escura para o botão quando hover */
 }
 
 /* Responsividade para dispositivos móveis */
 @media (max-width: 768px) {
-    body {
-        font-size: 14px;
-        padding: 10px;
+    .container {
+        padding: 15px;
     }
 
-    h1 {
-        font-size: 28px;
+    header h1 {
+        font-size: 1.5em;
+    }
+
+    .pedido-quantidade input {
+        width: 50px;
     }
 
     .pedido-section {
-        width: 90%;
-        margin-top: 10px;
+        padding: 15px;
     }
 
     button {
-        width: 100%;
-        font-size: 16px;
-    }
-
-    .pedido-section h3 {
-        font-size: 20px;
-    }
-
-    label {
-        font-size: 16px;
-    }
-}
-
-@media (max-width: 480px) {
-    h1 {
-        font-size: 24px;
-    }
-
-    .pedido-section h3 {
-        font-size: 18px;
-    }
-
-    label {
-        font-size: 14px;
-    }
-
-    button {
-        font-size: 14px;
+        font-size: 1em;
     }
 }
