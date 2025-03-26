@@ -8,38 +8,38 @@
 /* Corpo do site */
 body {
     font-family: Arial, sans-serif;
-    background-color: #ffdc13; /* Cor de fundo clara */
-    color: #ffdc13; /* Cor do texto */
+    background-color: #000000; /* Fundo preto */
+    color: #000000; /* Texto branco */
     display: flex;
     justify-content: center; /* Centraliza o conteúdo horizontalmente */
-    align-items: flex-start; /* Centraliza o conteúdo verticalmente no topo */
+    align-items: flex-start; /* Mantém o conteúdo no topo */
     height: 100vh;
-    padding: 20px; /* Garante um espaçamento da borda da tela */
+    padding: 20px;
     overflow-x: hidden; /* Previne o conteúdo de sair horizontalmente */
 }
 
 /* Container principal */
 .container {
     width: 100%;
-    max-width: 900px; /* Limita a largura para não ficar muito grande em telas grandes */
+    max-width: 900px;
     margin: 0 auto;
-    background-color: #000000;
+    background-color: #000000; /* Fundo cinza escuro */
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(85, 85, 85, 0.1);
-    text-align: center; /* Centraliza o texto dentro do container */
-    overflow: hidden; /* Garante que o conteúdo não ultrapasse os limites do container */
+    box-shadow: 0px 100px 100px #ffb327;
+    text-align: center;
+    overflow: hidden;
 }
 
 /* Cabeçalho */
 header {
-    margin-bottom: 40px;
+    margin-bottom: 1px;
 }
 
 header h1 {
     font-size: 2em;
-    color: #ffdc13; /* Cor para o título */
-    margin-bottom: 20px;
+    color: #ffb327; /* Laranja vibrante */
+    margin-bottom: 2px;
 }
 
 header .logo {
@@ -49,56 +49,60 @@ header .logo {
 
 /* Seção de Quantidade de Pedidos */
 .pedido-quantidade {
-    margin-bottom: 10px;
+    margin-bottom: 1px;
 }
 
 .pedido-quantidade h3 {
     font-size: 1.2em;
-    color: #ffdc13; /* Cor do subtítulo */
+    color: #ffb327;
 }
 
 .pedido-quantidade input {
-    width: 40px;
+    width: 50px;
     padding: 5px;
     font-size: 1.2em;
     text-align: center;
-    border: 3px solid #ffdc13;
-    border-radius: 5px;
+    border: 3px solid #ffb327;
+    border-radius: 8px;
+    background-color: #000000;
+    color: #ffb327;
 }
 
-/* Seção de Pedido (Espeto, Arroz, Acompanhamentos) */
+/* Container dos pedidos */
+#pedidosContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Seção de Pedido */
 .pedido-section {
-    margin-bottom: 25px;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    box-shadow: 0px 5px 100px #ffb327;/* sombra  */
+    background-color: #000000;/* cor da caixa preta atras dos espetos */
+    color: #ffb327; /* Cor dos titulos  */
 }
 
 /* Seção de Espetos */
 .pedido-section.espeto {
-    background-color: #f39c12; /* Fundo amarelo suave para espeto */
-}
-
-.pedido-section.espeto h3 {
-    color: #000000; /* Cor do título das seções */
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px #ffb327;
+    background-color: #ffb327;
+    color: #ffb327;
 }
 
 /* Seção de Arroz */
 .pedido-section.arroz {
-    background-color: #1abc9c; /* Fundo verde suave para arroz */
-}
-
-.pedido-section.arroz h3 {
-    color: #000000; /* Cor do título das seções */
+    background-color: #ff0000;
+    color: #ffb327;
 }
 
 /* Seção de Acompanhamentos */
 .pedido-section.acompanhamentos {
-    background-color: #3498db; /* Fundo azul suave para acompanhamentos */
-}
-
-.pedido-section.acompanhamentos h3 {
-    color: #000000; /* Cor do título das seções */
+    background-color: #ff2f2f;
+    color: #ffb327;
 }
 
 /* Títulos das seções */
@@ -107,15 +111,17 @@ header .logo {
     margin-bottom: 10px;
 }
 
-/* Títulos dos itens */
+/* Labels dos itens */
 .pedido-section label {
     display: block;
-    margin: 1px 0;
+    margin: 5px 0;
     font-size: 1em;
-    color: #fff; /* Cor branca para os itens dentro das seções */
+    color: #ffffff;
 }
 
-.pedido-section input[type="checkbox"] {
+/* Estilização dos checkboxes e radios */
+.pedido-section input[type="checkbox"],
+.pedido-section input[type="radio"] {
     margin-right: 10px;
     transform: scale(1.2);
 }
@@ -124,7 +130,7 @@ header .logo {
 button {
     width: 100%;
     padding: 12px;
-    background-color: #ffdc13; /* Cor do botão (vermelho) */
+    background-color: #ffb327;
     color: #000000;
     font-size: 1.2em;
     border: none;
@@ -135,7 +141,7 @@ button {
 }
 
 button:hover {
-    background-color: #e67e22; /* Cor mais escura para o botão quando hover */
+    background-color: #ffb327;
 }
 
 /* Responsividade para dispositivos móveis */

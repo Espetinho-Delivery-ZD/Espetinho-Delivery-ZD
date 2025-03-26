@@ -3,44 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Espetinho Delivery</title>
+    <title>Espetinho Delivery ZD</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .pedido-container {
+            border: 2px solid #000;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            background-color: #f8f8f8;
+        }
+        .pedido-section {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .categoria {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <header>
-    <h1>Faça Seu Pedido no Espetinho Delivery ZD</h1>
+            <h1>Faça Seu Pedido no Espetinho Delivery ZD</h1>
+            <img src="imagens/logo.png" alt="Logo Espetinho Delivery ZD" class="logo">
+        </header>
 
-    <img src="logo.png" alt="Logo Espetinho Delivery ZD" class="logo">
-       </header>
-    <!-- Quantidade de Pedidos -->
-    <div class="pedido-quantidade">
-        <h3>Quantos pedidos você deseja?</h3>
-        <input type="number" id="quantidadePedidos" min="1" value="1" onchange="atualizarPedidos()">
+        <div class="pedido-quantidade">
+            <h3>Quantos Espetinhos você deseja?</h3>
+            <input type="number" id="quantidadePedidos" min="1" value="1" onchange="atualizarPedidos()">
+        </div>
+
+        <div id="pedidosContainer"></div>
+
+        <button id="finalizarPedido" onclick="finalizarPedido()">Finalizar Pedido</button>
     </div>
-
-    <!-- Área de pedidos -->
-    <div id="pedidosContainer"></div>
-
-    <!-- Botão de Finalização -->
-    <button id="finalizarPedido" onclick="finalizarPedido()">Finalizar Pedido</button>
 
     <script>
         function atualizarPedidos() {
             const quantidade = document.getElementById('quantidadePedidos').value;
             const pedidosContainer = document.getElementById('pedidosContainer');
-            
-            // Limpa a área de pedidos
             pedidosContainer.innerHTML = '';
 
-            // Cria novos campos de pedido
             for (let i = 0; i < quantidade; i++) {
+                const pedidoContainer = document.createElement('div');
+                pedidoContainer.classList.add('pedido-container');
+                pedidoContainer.innerHTML = `<h3>Pedido ${i + 1}</h3>`;
+
                 const pedidoSection = document.createElement('div');
                 pedidoSection.classList.add('pedido-section');
-                
-                // Adiciona as seções de pedido (espeto, arroz, acompanhamentos)
-                pedidoSection.innerHTML = `
-                    <h3>Pedido ${i + 1}</h3>
+
+                const espetos = document.createElement('div');
+                espetos.classList.add('categoria');
+                espetos.innerHTML = `
                     <h4>Escolha o Espeto:</h4>
                     <label><input type="radio" name="espeto_{{i}}" class="espeto" data-nome="Gado" data-preco="18"> Gado - R$18,00</label><br>
 <label><input type="radio" name="espeto_{{i}}" class="espeto" data-nome="Frango" data-preco="15"> Frango - R$15,00</label><br>
@@ -49,21 +67,31 @@
 <label><input type="radio" name="espeto_{{i}}" class="espeto" data-nome="Gado e Frango" data-preco="15"> Gado e Frango - R$15,00</label><br>
 <label><input type="radio" name="espeto_{{i}}" class="espeto" data-nome="Toscana e Frango" data-preco="15"> Toscana e Frango - R$15,00</label><br>
 <label><input type="radio" name="espeto_{{i}}" class="espeto" data-nome="Gado, Frango e Toscana" data-preco="15"> Gado, Frango e Toscana - R$15,00</label><br>
-                    
-                    <h4>Escolha o Arroz:</h4>
-                    <label><input type="radio" name="arroz_{{i}}" class="arroz" data-nome="Baião de Dois"> Baião de Dois</label><br>
-<label><input type="radio" name="arroz_{{i}}" class="arroz" data-nome="Arroz de Cenoura"> Arroz de Cenoura</label><br>
-<label><input type="radio" name="arroz_{{i}}" class="arroz" data-nome="Sem arroz"> Sem Arroz</label><br>
-                    
-                    <h4>Escolha os Acompanhamentos:</h4>
-                    <label><input type="checkbox" class="acompanhamentos" data-nome="Salada"> Salada</label><br>
-                    <label><input type="checkbox" class="acompanhamentos" data-nome="Purê de Batata"> Purê de Batata</label><br>
-                    <label><input type="checkbox" class="acompanhamentos" data-nome="Farofa"> Farofa</label>
-                    <label><input type="checkbox" class="acompanhamentos" data-nome="Vatapá de Camarão"> Vatapá de Camarão com pimenta</label><br>
-                    <label><input type="checkbox" class="acompanhamentos" data-nome="Vatapá de Camarão"> Vatapá de Camarão sem pimenta</label><br>
                 `;
-                
-                pedidosContainer.appendChild(pedidoSection);
+
+                const arroz = document.createElement('div');
+                arroz.classList.add('categoria');
+                arroz.innerHTML = `
+                    <h4>Escolha o Arroz:</h4>
+                    <label><input type="radio" name="arroz_${i}" value="Baião de Dois"> Baião de Dois</label><br>
+                    <label><input type="radio" name="arroz_${i}" value="Arroz de Cenoura"> Arroz de Cenoura</label><br>
+                    <label><input type="radio" name="arroz_${i}" value="Sem arroz"> Sem Arroz</label><br>
+                `;
+
+                const acompanhamentos = document.createElement('div');
+                acompanhamentos.classList.add('categoria');
+                acompanhamentos.innerHTML = `
+                    <h4>Escolha os Acompanhamentos:</h4>
+                    <label><input type="checkbox" value="Salada"> Salada</label><br>
+                    <label><input type="checkbox" value="Purê de Batata"> Purê de Batata</label><br>
+                    <label><input type="checkbox" value="Farofa"> Farofa</label><br>
+                `;
+
+                pedidoSection.appendChild(espetos);
+                pedidoSection.appendChild(arroz);
+                pedidoSection.appendChild(acompanhamentos);
+                pedidoContainer.appendChild(pedidoSection);
+                pedidosContainer.appendChild(pedidoContainer);
             }
         }
 
