@@ -127,66 +127,68 @@
             }
         }
 
-        function finalizarPedido() {
-            const endereco = document.getElementById('enderecoEntrega').value;
-            if (!endereco) {
-                alert('Você deve informar um endereço de entrega!');
-                return;
-            }
+       function finalizarPedido() {
+    const endereco = document.getElementById('enderecoEntrega').value;
+    if (!endereco) {
+        alert('Você deve informar um endereço de entrega!');
+        return;
+    }
 
-            let mensagem = "Olá, gostaria de fazer um pedido no Espetinho Delivery ZD:\n";
-            mensagem += `Endereço de Entrega: ${endereco}\n`;
+    let mensagem = "Olá, gostaria de fazer um pedido no Espetinho Delivery ZD:\n";
+    mensagem += `Endereço de Entrega: ${endereco}\n`;
 
-            const pedidos = document.querySelectorAll('.pedido-section');
-            let algumItemSelecionado = false;
-            let totalPedido = 0;
-            let quantidadePedidos = 0;
+    const pedidos = document.querySelectorAll('.pedido-section');
+    let totalPedido = 0;
+    let quantidadePedidos = 0;
+    
+    pedidos.forEach((pedido, index) => {
+        let espeto = pedido.querySelector(`input[name="espeto_${index}"]:checked`);
+        let arroz = pedido.querySelector(`input[name="arroz_${index}"]:checked`);
+        let acompanhamentos = pedido.querySelectorAll(`input[name="acompanhamentos_${index}"]:checked`);
 
-            pedidos.forEach((pedido, index) => {
-                let espeto = pedido.querySelector(`input[name="espeto_${index}"]:checked`);
-                let arroz = pedido.querySelector(`input[name="arroz_${index}"]:checked`);
-                let acompanhamentos = pedido.querySelectorAll(`input[name="acompanhamentos_${index}"]:checked`);
-
-                if (!espeto || !arroz) {
-                    alert('Você deve escolher ao menos um espeto e um arroz para finalizar o pedido!');
-                    return;
-                }
-
-                if (acompanhamentos.length === 0) {
-                    alert('Você deve escolher ao menos um acompanhamento para finalizar o pedido!');
-                    return;
-                }
-
-                algumItemSelecionado = true;
-                quantidadePedidos++;
-
-                let valorEspeto = precoEspeto[espeto.value];
-                totalPedido += valorEspeto;
-
-                mensagem += `\n\nPedido ${index + 1}:\n`;
-                mensagem += `Espeto: ${espeto.value}\n`;
-                mensagem += `Arroz: ${arroz.value}\n`;
-
-                 let acompList = [];
-        acompanhamentos.forEach(acomp => {
-            acompList.push(`${acomp.value} - R$${precoAdicional[acomp.value].toFixed(2)}`);
-            totalPedido += precoAdicional[acomp.value];
-            });
-
-            if (!algumItemSelecionado) {
-                alert('Você deve escolher ao menos um item em cada categoria para finalizar o pedido!');
-                return;
-            }
-
-            let taxaEntrega = quantidadePedidos === 1 ? 2.00 : 0.00;
-            totalPedido += taxaEntrega;
-
-            mensagem += `\nValor Total do Pedido: R$ ${totalPedido.toFixed(2)}\n`;
-        
-
-            const urlWhatsApp = `https://wa.me/5598985349559?text=${encodeURIComponent(mensagem)}`;
-            window.open(urlWhatsApp, "_blank");
+        if (!espeto || !arroz) {
+            alert(`Você deve escolher um espeto e um arroz para o Pedido ${index + 1}!`);
+            return;
         }
+
+        if (acompanhamentos.length === 0) {
+            alert(`Você deve escolher ao menos um acompanhamento para o Pedido ${index + 1}!`);
+            return;
+        }
+
+        quantidadePedidos++;
+
+        let valorEspeto = precoEspeto[espeto.value];
+        totalPedido += valorEspeto;
+
+        mensagem += `\nPedido ${index + 1}:\n`;
+        mensagem += `Espeto: ${espeto.value} - R$${valorEspeto.toFixed(2)}\n`;
+        mensagem += `Arroz: ${arroz.value}\n`;
+
+        let acompList = [];
+        acompanhamentos.forEach(acomp => {
+            let valorAcompanhamento = precoAdicional[acomp.value] || 0; // Evita erro se algum acompanhamento não tiver preço
+            acompList.push(`${acomp.value} - R$${valorAcompanhamento.toFixed(2)}`);
+            totalPedido += valorAcompanhamento;
+        });
+
+        mensagem += `Acompanhamentos: ${acompList.join(', ')}\n`;
+    });
+
+    if (quantidadePedidos === 0) {
+        alert('Você deve escolher ao menos um item em cada categoria para finalizar o pedido!');
+        return;
+    }
+
+    let taxaEntrega = quantidadePedidos === 1 ? 2.00 : 0.00;
+    totalPedido += taxaEntrega;
+
+    mensagem += `\nTaxa de Entrega: R$${taxaEntrega.toFixed(2)}`;
+    mensagem += `\nValor Total do Pedido: R$ ${totalPedido.toFixed(2)}\n`;
+
+    const urlWhatsApp = `https://wa.me/5598985349559?text=${encodeURIComponent(mensagem)}`;
+    window.open(urlWhatsApp, "_blank");
+}
 
         atualizarPedidos();
     </script>
