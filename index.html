@@ -167,9 +167,10 @@
                 mensagem += `Espeto: ${espeto.value}\n`;
                 mensagem += `Arroz: ${arroz.value}\n`;
 
-                let acompList = [];
-                acompanhamentos.forEach(acomp => acompList.push(acomp.value));
-                mensagem += `Acompanhamentos: ${acompList.length > 0 ? acompList.join(", ") : "Nenhum"}\n`;
+                 let acompList = [];
+        acompanhamentos.forEach(acomp => {
+            acompList.push(`${acomp.value} - R$${precoAdicional[acomp.value].toFixed(2)}`);
+            totalPedido += precoAdicional[acomp.value];
             });
 
             if (!algumItemSelecionado) {
