@@ -44,7 +44,7 @@ function finalizarPedido() {
     const arrozSelecionado = [];
     const acompanhamentosSelecionado = [];
     let algumItemSelecionado = false;
-    let mensagem = "Olá, gostaria de fazer um pedido no Espetinho Delivery ZD:\n";
+    let mensagem = "Boa Noite, Meu pedido é:\n";
 
     // Iterando sobre todos os pedidos
     const pedidos = document.querySelectorAll('.pedido-section');
