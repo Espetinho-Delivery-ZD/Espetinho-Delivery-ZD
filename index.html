@@ -66,6 +66,11 @@
             "Gado, Frango e Toscana": 15.00
         };
 
+        const precoAdicional = {
+            "Adicional de batata frita": 3.00
+        };
+
+
         function atualizarPedidos() {
             const quantidade = document.getElementById('quantidadePedidos').value;
             const pedidosContainer = document.getElementById('pedidosContainer');
@@ -99,6 +104,7 @@
                     <label><input type="radio" name="arroz_${i}" value="Baião de Dois"> Baião de Dois</label><br>
                     <label><input type="radio" name="arroz_${i}" value="Arroz de Cenoura"> Arroz de Cuxá</label><br>
                     <label><input type="radio" name="arroz_${i}" value="Sem arroz"> Sem Arroz</label><br>
+                    
                 `;
 
                 const acompanhamentos = document.createElement('div');
@@ -110,6 +116,7 @@
                     <label><input type="checkbox" name="acompanhamentos_${i}" value="Farofa"> Farofa</label><br>
                     <label><input type="checkbox" name="acompanhamentos_${i}" value="Vatapá de camarão com pimenta"> Vatapá de camarão com pimenta</label><br>
                     <label><input type="checkbox" name="acompanhamentos_${i}" value="Vatapá de camarão sem pimenta"> Vatapá de camarão sem pimenta</label><br>
+                    <label><input type="checkbox" name="acompanhamentos_${i}" value="Adicional de batata frita"> Adicional de batata frita - R$3,00</label><br>
                 `;
 
                 pedidoSection.appendChild(espetos);
