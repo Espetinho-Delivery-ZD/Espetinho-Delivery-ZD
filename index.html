@@ -31,28 +31,24 @@
 <body>
     <div class="container">
         <header>
-            <h1>Faça Seu Pedido no Espetinho Delivery ZD</h1>
-            <img src="logo.png" alt="Logo Espetinho Delivery ZD" class="logo">
+            <h1>ESPETINHO DELIVERY ZD</h1>
+            <img src="/logo.png" alt="Logo Espetinho Delivery ZD" class="logo">
         </header>
 
         <div class="pedido-quantidade">
-            <h3>Quantos Espetinhos você deseja?</h3>
+            <h3>Quantos Pedidos você deseja?</h3>
             <input type="number" id="quantidadePedidos" min="1" value="1" onchange="atualizarPedidos()">
         </div>
 
-
         <div id="pedidosContainer"></div>
 
-         <!-- Caixa de Texto para o Endereço -->
-         <div class="endereco">
+        <!-- Caixa de Texto para o Endereço -->
+        <div class="endereco">
             <h3>Informe seu Endereço de Entrega:</h3>
             <textarea id="enderecoEntrega" rows="4" placeholder="Digite o endereço de entrega..."></textarea>
         </div>
 
-
         <button id="finalizarPedido" onclick="finalizarPedido()">Finalizar Pedido</button>
-
-
     </div>
 
     <script>
@@ -66,10 +62,10 @@
             "Gado, Frango e Toscana": 15.00
         };
 
-        const precoAdicional = {
-            "Adicional de batata frita": 3.00
+        const precoBebidas = {
+            "Suco de Maracuja": 5.00,
+            "Suco de Cupuaçu": 5.00
         };
-
 
         function atualizarPedidos() {
             const quantidade = document.getElementById('quantidadePedidos').value;
@@ -104,7 +100,6 @@
                     <label><input type="radio" name="arroz_${i}" value="Baião de Dois"> Baião de Dois</label><br>
                     <label><input type="radio" name="arroz_${i}" value="Arroz de Cenoura"> Arroz de Cenoura</label><br>
                     <label><input type="radio" name="arroz_${i}" value="Sem arroz"> Sem Arroz</label><br>
-                    
                 `;
 
                 const acompanhamentos = document.createElement('div');
@@ -116,79 +111,96 @@
                     <label><input type="checkbox" name="acompanhamentos_${i}" value="Farofa"> Farofa</label><br>
                     <label><input type="checkbox" name="acompanhamentos_${i}" value="Vatapá de camarão com pimenta"> Vatapá de camarão com pimenta</label><br>
                     <label><input type="checkbox" name="acompanhamentos_${i}" value="Vatapá de camarão sem pimenta"> Vatapá de camarão sem pimenta</label><br>
-                    <label><input type="checkbox" name="acompanhamentos_${i}" value="Adicional de batata frita"> Adicional de batata frita - R$3,00</label><br>
+                    <label><input type="checkbox" name="acompanhamentos_${i}" value="Batata Frita"> Batata Frita - R$3,00</label><br>
+                `;
+
+                const bebidas = document.createElement('div');
+                bebidas.classList.add('categoria');
+                bebidas.innerHTML = `
+                    <h4>Escolha sua bebida:</h4>
+                    <label><input type="checkbox" name="Bebidas_${i}" value="Suco de Maracuja"> Suco de Maracuja</label><br>
+                    <label><input type="checkbox" name="Bebidas_${i}" value="Suco de Cupuaçu"> Suco de Cupuaçu</label><br>
                 `;
 
                 pedidoSection.appendChild(espetos);
                 pedidoSection.appendChild(arroz);
                 pedidoSection.appendChild(acompanhamentos);
+                pedidoSection.appendChild(bebidas);
                 pedidoContainer.appendChild(pedidoSection);
                 pedidosContainer.appendChild(pedidoContainer);
             }
         }
 
-       function finalizarPedido() {
-    const endereco = document.getElementById('enderecoEntrega').value;
-    if (!endereco) {
-        alert('Você deve informar um endereço de entrega!');
-        return;
-    }
+        function finalizarPedido() {
+            const endereco = document.getElementById('enderecoEntrega').value;
+            if (!endereco) {
+                alert('Você deve informar um endereço de entrega!');
+                return;
+            }
 
-    let mensagem = "Olá, gostaria de fazer um pedido no Espetinho Delivery ZD:\n";
-    mensagem += `Endereço de Entrega: ${endereco}\n`;
+            let mensagem = "Olá, gostaria de fazer um pedido no Espetinho Delivery ZD:\n";
+            mensagem += `Endereço de Entrega: ${endereco}\n`;
 
-    const pedidos = document.querySelectorAll('.pedido-section');
-    let totalPedido = 0;
-    let quantidadePedidos = 0;
-    
-    pedidos.forEach((pedido, index) => {
-        let espeto = pedido.querySelector(`input[name="espeto_${index}"]:checked`);
-        let arroz = pedido.querySelector(`input[name="arroz_${index}"]:checked`);
-        let acompanhamentos = pedido.querySelectorAll(`input[name="acompanhamentos_${index}"]:checked`);
+            const pedidos = document.querySelectorAll('.pedido-section');
+            let algumItemSelecionado = false;
+            let totalPedido = 0;
+            let quantidadePedidos = 0;
 
-        if (!espeto || !arroz) {
-            alert(`Você deve escolher um espeto e um arroz para o Pedido ${index + 1}!`);
-            return;
+            pedidos.forEach((pedido, index) => {
+                let espeto = pedido.querySelector(`input[name="espeto_${index}"]:checked`);
+                let arroz = pedido.querySelector(`input[name="arroz_${index}"]:checked`);
+                let acompanhamentos = pedido.querySelectorAll(`input[name="acompanhamentos_${index}"]:checked`);
+                let bebidas = pedido.querySelectorAll(`input[name="Bebidas_${index}"]:checked`);
+
+                if (!espeto || !arroz || acompanhamentos.length === 0) {
+                    alert('Você deve escolher ao menos um espeto, um arroz e um acompanhamento!');
+                    return;
+                }
+
+                algumItemSelecionado = true;
+                quantidadePedidos++;
+
+                let valorEspeto = precoEspeto[espeto.value];
+                totalPedido += valorEspeto;
+
+                mensagem += `\n\nPedido ${index + 1}:\n`;
+                mensagem += `Espeto: ${espeto.value}\n`;
+                mensagem += `Arroz: ${arroz.value}\n`;
+
+                let acompList = [];
+                acompanhamentos.forEach(acomp => {
+                    acompList.push(acomp.value);
+                    if (acomp.value === "Batata Frita") {
+                        totalPedido += 3.00;
+                    }
+                });
+                mensagem += `Acompanhamentos: ${acompList.join(", ")}\n`;
+
+                if (bebidas.length > 0) {
+                    let bebidasList = [];
+                    bebidas.forEach(bebida => {
+                        bebidasList.push(bebida.value);
+                        if (precoBebidas[bebida.value]) {
+                            totalPedido += precoBebidas[bebida.value];
+                        }
+                    });
+                    mensagem += `Bebidas: ${bebidasList.join(", ")}\n`;
+                }
+            });
+
+            if (!algumItemSelecionado) {
+                alert('Você deve escolher ao menos um item em cada categoria para finalizar o pedido!');
+                return;
+            }
+
+            let taxaEntrega = quantidadePedidos === 1 ? 2.00 : 0.00;
+            totalPedido += taxaEntrega;
+
+            mensagem += `\nValor Total do Pedido: R$ ${totalPedido.toFixed(2)}\n`;
+
+            const urlWhatsApp = `https://wa.me/5598985349559?text=${encodeURIComponent(mensagem)}`;
+            window.open(urlWhatsApp, "_blank");
         }
-
-        if (acompanhamentos.length === 0) {
-            alert(`Você deve escolher ao menos um acompanhamento para o Pedido ${index + 1}!`);
-            return;
-        }
-
-        quantidadePedidos++;
-
-        let valorEspeto = precoEspeto[espeto.value];
-        totalPedido += valorEspeto;
-
-        mensagem += `\nPedido ${index + 1}:\n`;
-        mensagem += `Espeto: ${espeto.value} - R$${valorEspeto.toFixed(2)}\n`;
-        mensagem += `Arroz: ${arroz.value}\n`;
-
-        let acompList = [];
-        acompanhamentos.forEach(acomp => {
-            let valorAcompanhamento = precoAdicional[acomp.value] || 0; // Evita erro se algum acompanhamento não tiver preço
-            acompList.push(`${acomp.value} - R$${valorAcompanhamento.toFixed(2)}`);
-            totalPedido += valorAcompanhamento;
-        });
-
-        mensagem += `Acompanhamentos: ${acompList.join(', ')}\n`;
-    });
-
-    if (quantidadePedidos === 0) {
-        alert('Você deve escolher ao menos um item em cada categoria para finalizar o pedido!');
-        return;
-    }
-
-    let taxaEntrega = quantidadePedidos === 1 ? 2.00 : 0.00;
-    totalPedido += taxaEntrega;
-
-    mensagem += `\nTaxa de Entrega: R$${taxaEntrega.toFixed(2)}`;
-    mensagem += `\nValor Total do Pedido: R$ ${totalPedido.toFixed(2)}\n`;
-
-    const urlWhatsApp = `https://wa.me/5598985349559?text=${encodeURIComponent(mensagem)}`;
-    window.open(urlWhatsApp, "_blank");
-}
 
         atualizarPedidos();
     </script>
