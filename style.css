@@ -32,12 +32,22 @@ body {
     overflow: hidden;
 }
 
-textarea{
-    border:2px solid gray;
-    padding:3px;
-    font-size:5px;
-    color: black;
-     background-color: #000000;    
+textarea {
+    border: 2px solid #444;         /* Borda cinza escura, mais suave /
+    padding: 10px;                  / Mais espaço interno pra conforto /
+    font-size: 14px;                / Tamanho de texto legível /
+    color: #fff;                    / Texto branco pra contraste /
+    background-color: #111;         / Fundo escuro elegante /
+    border-radius: 8px;             / Cantos arredondados /
+    width: 100%;                    / Ocupa toda a largura disponível /
+    box-sizing: border-box;         / Evita estouro de layout /
+    resize: vertical;               / Só pode redimensionar pra cima/baixo /
+    outline: none;                  / Remove borda azul ao clicar /
+    transition: border-color 0.3s;  / Animação suave ao focar /
+}
+
+textarea:focus {
+    border-color: #00b894;          / Borda verde ao focar (pode trocar por outra cor) */
 }
 
 /* Cabeçalho */
