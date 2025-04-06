@@ -50,7 +50,7 @@
         </header>
 
         <div class="pedido-quantidade">
-            <h3>QUANTOS ESPETINHO VOCÊ DESEJA ?</h3>
+            <h3>QUANTOS ESPETINHOS VOCÊ DESEJA ?</h3>
             <input type="number" id="quantidadePedidos" min="1" value="1" onchange="atualizarPedidos()">
         </div>
 
@@ -163,6 +163,7 @@
             }
 
             let mensagem = "Olá, gostaria de fazer um pedido no Espetinho Delivery ZD:\n";
+            </br>
             mensagem += `Endereço de Entrega: ${endereco}\n`;
 
             const pedidos = document.querySelectorAll('.pedido-section');
