@@ -1,0 +1,21 @@
+{
+  "name": "Espetinho Delivery ZD",
+  "short_name": "EspetinhoZD",
+  "start_url": "/Espetinho-Delivery-ZD/index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#b71c1c",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "logo192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
