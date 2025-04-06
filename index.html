@@ -42,7 +42,10 @@
 
         <div id="pedidosContainer"></div>
 
-        <!-- Caixa de Texto para o Endereço -->
+        <!-- Mostra a taxa de entrega -->
+        <div id="taxaEntregaInfo" style="margin: 15px 0; font-weight: bold;"></div>
+
+        <!-- Endereço -->
         <div class="endereco">
             <h3>Informe seu Endereço de Entrega:</h3>
             <textarea id="enderecoEntrega" rows="4" placeholder="Digite o endereço de entrega..."></textarea>
@@ -129,6 +132,18 @@
                 pedidoContainer.appendChild(pedidoSection);
                 pedidosContainer.appendChild(pedidoContainer);
             }
+
+            atualizarTaxaEntrega();
+        }
+
+        function atualizarTaxaEntrega() {
+            const quantidade = parseInt(document.getElementById('quantidadePedidos').value);
+            const taxaInfo = document.getElementById('taxaEntregaInfo');
+            if (quantidade === 1) {
+                taxaInfo.innerText = "Taxa de entrega: R$2,00";
+            } else {
+                taxaInfo.innerText = "Entrega grátis";
+            }
         }
 
         function finalizarPedido() {
@@ -196,6 +211,7 @@
             let taxaEntrega = quantidadePedidos === 1 ? 2.00 : 0.00;
             totalPedido += taxaEntrega;
 
+            mensagem += quantidadePedidos === 1 ? `\nTaxa de entrega: R$ 2,00` : `\nEntrega grátis`;
             mensagem += `\nValor Total do Pedido: R$ ${totalPedido.toFixed(2)}\n`;
 
             const urlWhatsApp = `https://wa.me/5598985349559?text=${encodeURIComponent(mensagem)}`;
