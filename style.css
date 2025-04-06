@@ -32,6 +32,14 @@ body {
     overflow: hidden;
 }
 
+textarea{
+    border:2px solid gray;
+    padding:3px;
+    font-size:5px;
+    color: black;
+     background-color: #000000;    
+}
+
 /* Cabeçalho */
 header {
     margin-bottom: 1px;
