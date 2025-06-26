@@ -347,13 +347,18 @@ header p {
 
         function finalizarPedido() {
             const endereco = document.getElementById('enderecoEntrega').value;
+            const numeroCliente = document.getElementById('numeroCliente').value.trim();
+           if (!numeroCliente) {
+            alert('Você deve informar seu número de WhatsApp!');
+            return;
+           }
             if (!endereco) {
                 alert('Você deve informar um endereço de entrega!');
                 return;
             }
 
-            let mensagem = "Olá, gostaria de fazer um pedido no Espetinho Delivery ZD:\n";
-            
+            let mensagem = "Olá, meu pedido é:\n";
+            mensagem += `Número de WhatsApp do Cliente: ${numeroCliente}\n`;
             mensagem += `Endereço de Entrega: ${endereco}\n`;
 
             const pedidos = document.querySelectorAll('.pedido-section');
