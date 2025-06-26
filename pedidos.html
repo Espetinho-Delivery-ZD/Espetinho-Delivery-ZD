@@ -196,7 +196,8 @@
 
     <div class="telefone">
       <h3>INFORME SEU NÚMERO DE WHATSAPP:</h3><br>
-      <input type="text" id="numeroCliente" placeholder="Ex: 98991234567">
+      <input type="text" id="numeroCliente" placeholder="Digite seu nome ou número de WhatsApp">
+
     </div>
 
     <div class="pedido-quantidade">
@@ -320,7 +321,7 @@
       }
 
       let mensagem = "Olá, gostaria de fazer um pedido no Espetinho Delivery ZD:\n";
-      mensagem += `Número de WhatsApp do Cliente: ${numeroCliente}\n`;
+      mensagem += `Nome ou Número do Cliente: ${numeroCliente}\n`;
       mensagem += `Endereço de Entrega: ${endereco}\n`;
 
       const pedidos = document.querySelectorAll('.pedido-section');
