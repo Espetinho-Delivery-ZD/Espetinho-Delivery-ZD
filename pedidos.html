@@ -177,6 +177,18 @@
       left: 0;
       z-index: -1;
     }
+
+    .forma-pagamento {
+  margin-top: 30px;
+  padding: 15px;
+  border: 2px solid #fca311;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.forma-pagamento label {
+  color: #fff;
+  font-weight: bold;
+}
   </style>
 </head>
 
@@ -216,6 +228,13 @@
       <h3>INFORME SEU ENDEREÇO DE ENTREGA:</h3><br>
       <textarea id="enderecoEntrega" rows="4" placeholder="Digite o endereço de entrega..."></textarea>
     </div>
+
+    <div class="forma-pagamento">
+  <h3>ESCOLHA A FORMA DE PAGAMENTO:</h3><br>
+  <label><input type="radio" name="pagamento" value="PIX"> PIX</label><br>
+  <label><input type="radio" name="pagamento" value="Espécie"> Espécie</label><br>
+  <label><input type="radio" name="pagamento" value="Cartão"> Cartão</label>
+</div>
 
     <button id="finalizarPedido" onclick="finalizarPedido()">Finalizar Pedido</button>
   </div>
@@ -312,7 +331,13 @@
     function finalizarPedido() {
       const endereco = document.getElementById('enderecoEntrega').value.trim();
       const numeroCliente = document.getElementById('numeroCliente').value.trim();
+      const pagamento = document.querySelector('input[name="pagamento"]:checked');
 
+      if (!pagamento) {
+      alert('Você deve selecionar uma forma de pagamento!');
+      return;
+      }
+      
       if (!numeroCliente) {
         alert('Você deve informar seu número de WhatsApp!');
         return;
