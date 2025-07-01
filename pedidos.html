@@ -333,11 +333,7 @@
       const numeroCliente = document.getElementById('numeroCliente').value.trim();
       const pagamento = document.querySelector('input[name="pagamento"]:checked');
 
-      if (!pagamento) {
-      alert('Você deve selecionar uma forma de pagamento!');
-      return;
-      }
-      
+           
       if (!numeroCliente) {
         alert('Você deve informar seu número de WhatsApp!');
         return;
@@ -347,9 +343,15 @@
         return;
       }
 
+       if (!pagamento) {
+      alert('Você deve selecionar uma forma de pagamento!');
+      return;
+      }
+
       let mensagem = "Olá, gostaria de fazer um pedido no Espetinho Delivery ZD:\n";
       mensagem += `Nome ou Número do Cliente: ${numeroCliente}\n`;
       mensagem += `Endereço de Entrega: ${endereco}\n`;
+      mensagem += `Forma de Pagamento: ${pagamento.value}\n`;
 
       const pedidos = document.querySelectorAll('.pedido-section');
       let totalPedido = 0;
