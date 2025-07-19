@@ -187,10 +187,15 @@
   box-shadow: 0 0 60px #fca311;
   animation: brilho-borda 2s infinite;
 }
+    #trocoContainer {
+      display: none;
+      margin-top: 10px;
+    }
 .forma-pagamento label {
   color: #fff;
   font-weight: bold;
 }
+    
   </style>
 </head>
 
@@ -231,17 +236,29 @@
       <textarea id="enderecoEntrega" rows="4" placeholder="Digite o endereço de entrega..."></textarea>
     </div>
 
-    <div class="forma-pagamento">
-  <h4>QUAL A FORMA DE PAGAMENTO:</h4><br>
-  <label><input type="radio" name="pagamento" value="PIX"> PIX</label><br>
-  <label><input type="radio" name="pagamento" value="Espécie"> Espécie</label><br>
-  <label><input type="radio" name="pagamento" value="Cartão"> Cartão</label>
-</div>
+     <div class="forma-pagamento">
+    <h4>QUAL A FORMA DE PAGAMENTO:</h4><br>
+    <label><input type="radio" name="pagamento" value="PIX" onchange="toggleTroco(false)"> PIX</label><br>
+    <label><input type="radio" name="pagamento" value="Espécie" onchange="toggleTroco(true)"> Espécie</label><br>
+    <label><input type="radio" name="pagamento" value="Cartão" onchange="toggleTroco(false)"> Cartão</label>
+    <div id="trocoContainer">
+      <label style="color: #fff;">Precisa de troco para quanto?</label>
+      <input type="text" id="trocoInput" placeholder="Ex: R$ 100,00">
+    </div>
+  </div>
 
     <button id="finalizarPedido" onclick="finalizarPedido()">Finalizar Pedido</button>
   </div>
 
   <script>
+
+     function toggleTroco(ativo) {
+      const container = document.getElementById('trocoContainer');
+      const input = document.getElementById('trocoInput');
+      container.style.display = ativo ? 'block' : 'none';
+      input.required = ativo;
+    }
+
     const precoEspeto = {
       "Gado": 18.00,
       "Frango": 15.00,
@@ -333,6 +350,7 @@
       const endereco = document.getElementById('enderecoEntrega').value.trim();
       const numeroCliente = document.getElementById('numeroCliente').value.trim();
       const pagamento = document.querySelector('input[name="pagamento"]:checked');
+      const trocoInput = document.getElementById('trocoInput');
 
            
       if (!numeroCliente) {
@@ -349,10 +367,19 @@
       return;
       }
 
+       if (pagamento.value === "Espécie" && trocoInput.value.trim() === '') {
+        alert("Por favor, informe o troco!");
+        return;
+      }
+
       let mensagem = "Olá, gostaria de fazer um pedido no Espetinho Delivery ZD:\n";
       mensagem += `Nome ou Número do Cliente: ${numeroCliente}\n`;
       mensagem += `Endereço de Entrega: ${endereco}\n`;
       mensagem += `Forma de Pagamento: ${pagamento.value}\n`;
+       if (pagamento.value === "Espécie") {
+        mensagem += `Troco para: ${trocoInput.value}\n`;
+      }
+
       
 
       const pedidos = document.querySelectorAll('.pedido-section');
