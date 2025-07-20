@@ -353,98 +353,151 @@
     });
 
     function atualizarPedidos() {
-      const quantidade = parseInt(document.getElementById("quantidadePedidos").value);
-      const pedidosContainer = document.getElementById("pedidosContainer");
-      const taxaInfo = document.getElementById("taxaEntregaInfo");
+  const quantidade = parseInt(document.getElementById("quantidadePedidos").value);
+  const pedidosContainer = document.getElementById("pedidosContainer");
+  const taxaInfo = document.getElementById("taxaEntregaInfo");
 
-      pedidosContainer.innerHTML = "";
+  // === SALVA os dados atuais dos pedidos ===
+  const dadosPedidos = [];
+  const pedidosAtuais = document.querySelectorAll(".pedido-section");
 
-      for (let i = 0; i < quantidade; i++) {
-        const pedidoContainer = document.createElement("div");
-        pedidoContainer.classList.add("pedido-container");
-        pedidoContainer.innerHTML = `<h3>Pedido ${i + 1}</h3>`;
+  pedidosAtuais.forEach((pedido, i) => {
+    // Espeto escolhido
+    const espeto = pedido.querySelector(`input[name="espeto_${i}"]:checked`);
+    // Arroz escolhido
+    const arroz = pedido.querySelector(`input[name="arroz_${i}"]:checked`);
+    // Acompanhamentos escolhidos (checkboxes)
+    const acompanhamentos = Array.from(
+      pedido.querySelectorAll(`input[name="acompanhamentos_${i}"]:checked`)
+    ).map((input) => input.value);
+    // Bebidas escolhidas (checkboxes)
+    const bebidas = Array.from(
+      pedido.querySelectorAll(`input[name="Bebidas_${i}"]:checked`)
+    ).map((input) => input.value);
 
-        const pedidoSection = document.createElement("div");
-        pedidoSection.classList.add("pedido-section");
+    dadosPedidos.push({
+      espeto: espeto ? espeto.value : null,
+      arroz: arroz ? arroz.value : null,
+      acompanhamentos,
+      bebidas,
+    });
+  });
 
-        const espetos = document.createElement("div");
-        espetos.classList.add("categoria");
-        espetos.innerHTML = `
-          <h4>ESCOLHA O ESPETO:</h4>
-          <label><input type="radio" name="espeto_${i}" value="Gado"> Gado - R$18,00</label>
-          <label><input type="radio" name="espeto_${i}" value="Frango"> Frango - R$15,00</label>
-          <label><input type="radio" name="espeto_${i}" value="Toscana"> Toscana - R$15,00</label>
-          <label><input type="radio" name="espeto_${i}" value="Gado e Toscana"> Gado e Toscana - R$15,00</label>
-          <label><input type="radio" name="espeto_${i}" value="Gado e Frango"> Gado e Frango - R$15,00</label>
-          <label><input type="radio" name="espeto_${i}" value="Toscana e Frango"> Toscana e Frango - R$15,00</label>
-          <label><input type="radio" name="espeto_${i}" value="Gado, Frango e Toscana"> Gado, Frango e Toscana - R$15,00</label>
-        `;
+  // === Limpa e recria os pedidos ===
+  pedidosContainer.innerHTML = "";
 
-        const arroz = document.createElement("div");
-        arroz.classList.add("categoria");
-        arroz.innerHTML = `
-          <h4>ESCOLHA O ARROZ:</h4>
-          <label><input type="radio" name="arroz_${i}" value="De Cenoura"> De Cenoura</label>
-          <label><input type="radio" name="arroz_${i}" value="Baião de Dois"> Baião de Dois</label>
-          <label><input type="radio" name="arroz_${i}" value="Sem arroz"> Sem Arroz</label>
-        `;
+  for (let i = 0; i < quantidade; i++) {
+    const pedidoContainer = document.createElement("div");
+    pedidoContainer.classList.add("pedido-container");
+    pedidoContainer.innerHTML = `<h3>Pedido ${i + 1}</h3>`;
 
-        const acompanhamentos = document.createElement("div");
-        acompanhamentos.classList.add("categoria");
-        acompanhamentos.innerHTML = `
-          <h4>ESCOLHA OS ACOMPANHAMENTOS:</h4>
-          <label><input type="checkbox" name="acompanhamentos_${i}" value="Purê de Batata"> Purê de Batata - GRÁTIS</label>
-          <label><input type="checkbox" name="acompanhamentos_${i}" value="Vatapá de camarão com pimenta"> Vatapá com pimenta - GRÁTIS</label>
-          <label><input type="checkbox" name="acompanhamentos_${i}" value="Vatapá de camarão sem pimenta"> Vatapá sem pimenta - GRÁTIS</label>
-          <label><input type="checkbox" name="acompanhamentos_${i}" value="Farofa"> Farofa - GRÁTIS</label>
-          <label><input type="checkbox" name="acompanhamentos_${i}" value="Salada"> Salada - GRÁTIS</label>
-          <br><h4>ADICIONAIS:</h4>
-          <label><input type="checkbox" name="acompanhamentos_${i}" value="Batata Frita"> Batata Frita - R$4,00</label>
-          <label><input type="checkbox" name="acompanhamentos_${i}" value="Queijo Coalho"> Queijo Coalho - R$4,00</label>
-        `;
+    const pedidoSection = document.createElement("div");
+    pedidoSection.classList.add("pedido-section");
 
-        const bebidas = document.createElement("div");
-        bebidas.classList.add("categoria");
-        bebidas.innerHTML = `
-          <h4>ESCOLHA SUA BEBIDA:</h4>
-          <label><input type="checkbox" name="Bebidas_${i}" value="Suco de Maracuja"> Suco de Maracujá 300 ml - R$5,00</label>
-          <label><input type="checkbox" name="Bebidas_${i}" value="Refrigerante"> Refrigerante 350 ml - R$6,00</label>
-        `;
+    const espetos = document.createElement("div");
+    espetos.classList.add("categoria");
+    espetos.innerHTML = `
+      <h4>ESCOLHA O ESPETO:</h4>
+      <label><input type="radio" name="espeto_${i}" value="Gado"> Gado - R$18,00</label>
+      <label><input type="radio" name="espeto_${i}" value="Frango"> Frango - R$15,00</label>
+      <label><input type="radio" name="espeto_${i}" value="Toscana"> Toscana - R$15,00</label>
+      <label><input type="radio" name="espeto_${i}" value="Gado e Toscana"> Gado e Toscana - R$15,00</label>
+      <label><input type="radio" name="espeto_${i}" value="Gado e Frango"> Gado e Frango - R$15,00</label>
+      <label><input type="radio" name="espeto_${i}" value="Toscana e Frango"> Toscana e Frango - R$15,00</label>
+      <label><input type="radio" name="espeto_${i}" value="Gado, Frango e Toscana"> Gado, Frango e Toscana - R$15,00</label>
+    `;
 
-        pedidoSection.appendChild(espetos);
-        pedidoSection.appendChild(arroz);
-        pedidoSection.appendChild(acompanhamentos);
-        pedidoSection.appendChild(bebidas);
-        pedidoContainer.appendChild(pedidoSection);
-        pedidosContainer.appendChild(pedidoContainer);
+    const arroz = document.createElement("div");
+    arroz.classList.add("categoria");
+    arroz.innerHTML = `
+      <h4>ESCOLHA O ARROZ:</h4>
+      <label><input type="radio" name="arroz_${i}" value="De Cenoura"> De Cenoura</label>
+      <label><input type="radio" name="arroz_${i}" value="Baião de Dois"> Baião de Dois</label>
+      <label><input type="radio" name="arroz_${i}" value="Sem arroz"> Sem Arroz</label>
+    `;
+
+    const acompanhamentos = document.createElement("div");
+    acompanhamentos.classList.add("categoria");
+    acompanhamentos.innerHTML = `
+      <h4>ESCOLHA OS ACOMPANHAMENTOS:</h4>
+      <label><input type="checkbox" name="acompanhamentos_${i}" value="Purê de Batata"> Purê de Batata - GRÁTIS</label>
+      <label><input type="checkbox" name="acompanhamentos_${i}" value="Vatapá de camarão com pimenta"> Vatapá com pimenta - GRÁTIS</label>
+      <label><input type="checkbox" name="acompanhamentos_${i}" value="Vatapá de camarão sem pimenta"> Vatapá sem pimenta - GRÁTIS</label>
+      <label><input type="checkbox" name="acompanhamentos_${i}" value="Farofa"> Farofa - GRÁTIS</label>
+      <label><input type="checkbox" name="acompanhamentos_${i}" value="Salada"> Salada - GRÁTIS</label>
+      <br><h4>ADICIONAIS:</h4>
+      <label><input type="checkbox" name="acompanhamentos_${i}" value="Batata Frita"> Batata Frita - R$4,00</label>
+      <label><input type="checkbox" name="acompanhamentos_${i}" value="Queijo Coalho"> Queijo Coalho - R$4,00</label>
+    `;
+
+    const bebidas = document.createElement("div");
+    bebidas.classList.add("categoria");
+    bebidas.innerHTML = `
+      <h4>ESCOLHA SUA BEBIDA:</h4>
+      <label><input type="checkbox" name="Bebidas_${i}" value="Suco de Maracuja"> Suco de Maracujá 300 ml - R$5,00</label>
+      <label><input type="checkbox" name="Bebidas_${i}" value="Refrigerante"> Refrigerante 350 ml - R$6,00</label>
+    `;
+
+    pedidoSection.appendChild(espetos);
+    pedidoSection.appendChild(arroz);
+    pedidoSection.appendChild(acompanhamentos);
+    pedidoSection.appendChild(bebidas);
+    pedidoContainer.appendChild(pedidoSection);
+    pedidosContainer.appendChild(pedidoContainer);
+
+    // === Reaplica as seleções salvas ===
+    if (dadosPedidos[i]) {
+      const d = dadosPedidos[i];
+
+      if (d.espeto) {
+        const espetoInput = pedidoSection.querySelector(`input[name="espeto_${i}"][value="${d.espeto}"]`);
+        if (espetoInput) espetoInput.checked = true;
       }
 
-      // Cálculo da taxa de entrega baseado no local selecionado e quantidade
-      const localSelecionado = document.querySelector(
-        'input[name="localidade"]:checked'
-      ).value;
-
-      let taxaEntrega = 0;
-
-      if (localSelecionado === "Ze Doca") {
-        if (quantidade < 3) {
-          taxaEntrega = 2.0;
-          taxaInfo.textContent = "TAXA DE ENTREGA: R$ 2,00 (Zé Doca)";
-        } else {
-          taxaEntrega = 0.0;
-          taxaInfo.textContent = "ENTREGA GRÁTIS! (Zé Doca)";
-        }
-      } else if (localSelecionado === "Josias") {
-        taxaEntrega = 7.0;
-        taxaInfo.textContent = "TAXA DE ENTREGA: R$ 7,00 (Josias)";
-      } else if (localSelecionado === "Boa Esperança") {
-        taxaEntrega = 5.0;
-        taxaInfo.textContent = "TAXA DE ENTREGA: R$ 5,00 (Boa Esperança)";
+      if (d.arroz) {
+        const arrozInput = pedidoSection.querySelector(`input[name="arroz_${i}"][value="${d.arroz}"]`);
+        if (arrozInput) arrozInput.checked = true;
       }
 
-      // Guarda taxa para finalizarPedido()
-      window.taxaEntregaAtual = taxaEntrega;
+      if (d.acompanhamentos && d.acompanhamentos.length > 0) {
+        d.acompanhamentos.forEach((valor) => {
+          const acompInput = pedidoSection.querySelector(`input[name="acompanhamentos_${i}"][value="${valor}"]`);
+          if (acompInput) acompInput.checked = true;
+        });
+      }
+
+      if (d.bebidas && d.bebidas.length > 0) {
+        d.bebidas.forEach((valor) => {
+          const bebidaInput = pedidoSection.querySelector(`input[name="Bebidas_${i}"][value="${valor}"]`);
+          if (bebidaInput) bebidaInput.checked = true;
+        });
+      }
     }
+  }
+
+  // Atualiza a taxa de entrega
+  const localSelecionado = document.querySelector('input[name="localidade"]:checked').value;
+  let taxaEntrega = 0;
+
+  if (localSelecionado === "Ze Doca") {
+    if (quantidade < 3) {
+      taxaEntrega = 2.0;
+      taxaInfo.textContent = "TAXA DE ENTREGA: R$ 2,00 (Zé Doca)";
+    } else {
+      taxaEntrega = 0.0;
+      taxaInfo.textContent = "ENTREGA GRÁTIS! (Zé Doca)";
+    }
+  } else if (localSelecionado === "Josias") {
+    taxaEntrega = 7.0;
+    taxaInfo.textContent = "TAXA DE ENTREGA: R$ 7,00 (Josias)";
+  } else if (localSelecionado === "Boa Esperança") {
+    taxaEntrega = 5.0;
+    taxaInfo.textContent = "TAXA DE ENTREGA: R$ 5,00 (Boa Esperança)";
+  }
+
+  window.taxaEntregaAtual = taxaEntrega;
+}
+
 
     function finalizarPedido() {
       const endereco = document.getElementById("enderecoEntrega").value.trim();
