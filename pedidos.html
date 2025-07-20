@@ -276,6 +276,11 @@
       
     };
 
+    const precoAcompanhamentos = {
+    "Batata Frita": 3.00,
+    "Queijo Coalho": 4.00
+    };
+ 
     function atualizarPedidos() {
       const quantidade = document.getElementById('quantidadePedidos').value;
       const pedidosContainer = document.getElementById('pedidosContainer');
@@ -408,11 +413,12 @@
         mensagem += `Arroz: ${arroz.value}\n`;
 
         let acompList = [];
-        acompanhamentos.forEach(a => {
-          acompList.push(a.value);
-          if (a.value === "Batata Frita") totalPedido += 3.00;
-          if (a.value === "Queijo Coalho") totalPedido += 4.00;
-        });
+       acompanhamentos.forEach(a => {
+        acompList.push(a.value);
+           if (precoAcompanhamentos[a.value]) {
+       totalPedido += precoAcompanhamentos[a.value];
+        }
+          });
         mensagem += `Acompanhamentos: ${acompList.join(", ")}\n`;
 
         if (bebidas.length > 0) {
