@@ -201,9 +201,12 @@
     }
 
     .local-entrega {
-      margin-top: 20px;
-      color: #000;
-    }
+  display: flex;
+  gap: 20px; /* Espaçamento entre as opções */
+  align-items: center; /* Alinha verticalmente */
+  margin-top: 20px;
+  color: #fff; /* Texto branco */
+}
 
     .local-entrega label {
       margin-right: 15px;
@@ -260,9 +263,8 @@
       ></textarea>
     </div>
 
-    <!-- NOVA SEÇÃO LOCALIDADE -->
     <div class="local-entrega">
-      <h3>SELECIONE A SUA LOCALIDADE:</h3><br />
+      <h3>SELECIONE A SUA LOCALIDADE:</h3>
       <label><input type="radio" name="localidade" value="Ze Doca" checked /> Zé Doca</label>
       <label><input type="radio" name="localidade" value="Josias" /> Josias</label>
       <label><input type="radio" name="localidade" value="Boa Esperança" /> Boa Esperança</label>
