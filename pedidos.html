@@ -312,7 +312,7 @@
         arroz.classList.add('categoria');
         arroz.innerHTML = `
           <h4>ESCOLHA O ARROZ:</h4>
-          <label><input type="radio" name="arroz_${i}" value=" De Cenoura"> De Cenoura</label>
+          <label><input type="radio" name="arroz_${i}" value="De Cenoura"> De Cenoura</label>
           <label><input type="radio" name="arroz_${i}" value="Baião de Dois"> Baião de Dois</label>
           <label><input type="radio" name="arroz_${i}" value="Sem arroz"> Sem Arroz</label>
         `;
@@ -347,7 +347,7 @@
         pedidosContainer.appendChild(pedidoContainer);
       }
 
-      if (quantidade == 1) {
+      if (quantidade == 3) {
         taxaInfo.textContent = "TAXA DE ENTREGA: R$2,00";
       } else {
         taxaInfo.textContent = "ENTREGA GRÁTIS!";
@@ -431,7 +431,7 @@
         }
       }
 
-      const taxaEntrega = pedidos.length === 1 ? 2.00 : 0.00;
+      const taxaEntrega = pedidos.length === 3 ? 2.00 : 0.00;
       totalPedido += taxaEntrega;
 
       mensagem += `\nValor Total do Pedido: R$ ${totalPedido.toFixed(2)}`;
