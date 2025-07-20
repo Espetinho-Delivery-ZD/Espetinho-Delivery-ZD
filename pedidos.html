@@ -200,20 +200,23 @@
       cursor: pointer;
     }
 
-    .local-entrega {
+  .local-entrega {
   display: flex;
-  gap: 20px; /* Espaçamento entre as opções */
-  align-items: center; /* Alinha verticalmente */
+  flex-direction: column; /* Empilha o título e as opções */
+  align-items: center;     /* Centraliza no eixo horizontal */
   margin-top: 20px;
-  color: #fff; /* Texto branco */
+  color: #fff;
 }
 
-    .local-entrega label {
-      margin-right: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      color: #fff;
-    }
+.local-entrega h3 {
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.local-entrega .opcoes {
+  display: flex;
+  gap: 20px;
+}
 
   </style>
 </head>
@@ -264,6 +267,8 @@
     </div>
 
     <div class="local-entrega">
+      <h3>SELECIONE A SUA LOCALIDADE:</h3><br />
+      <div class="opcoes">
       <label><input type="radio" name="localidade" value="Ze Doca" checked /> Zé Doca</label>
       <label><input type="radio" name="localidade" value="Josias" /> Josias</label>
       <label><input type="radio" name="localidade" value="Boa Esperança" /> Boa Esperança</label>
