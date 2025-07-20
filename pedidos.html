@@ -272,7 +272,7 @@
     const precoBebidas = {
       "Suco de Maracuja": 5.00,
       "Suco de Acerola": 5.00,
-      "Refrigerante": 5.00
+      "Refrigerante": 6.00
       
     };
 
@@ -411,6 +411,7 @@
         acompanhamentos.forEach(a => {
           acompList.push(a.value);
           if (a.value === "Batata Frita") totalPedido += 3.00;
+          if (a.value === "Queijo Coalho") totalPedido += 4.00;
         });
         mensagem += `Acompanhamentos: ${acompList.join(", ")}\n`;
 
