@@ -347,7 +347,7 @@
         pedidosContainer.appendChild(pedidoContainer);
       }
 
-      if (quantidade == 3) {
+      if (quantidade > 3) {
         taxaInfo.textContent = "TAXA DE ENTREGA: R$2,00";
       } else {
         taxaInfo.textContent = "ENTREGA GRÁTIS!";
@@ -431,7 +431,7 @@
         }
       }
 
-      const taxaEntrega = pedidos.length === 3 ? 2.00 : 0.00;
+      const taxaEntrega = pedidos.length  < 3 ? 2.00 : 0.00;
       totalPedido += taxaEntrega;
 
       mensagem += `\nValor Total do Pedido: R$ ${totalPedido.toFixed(2)}`;
