@@ -546,7 +546,27 @@
     }
 
     // Inicializa o formulário
-    atualizarPedidos();
+    // Salva os acompanhamentos já selecionados
+const selecoesAnteriores = {};
+document.querySelectorAll('[name^="acompanhamentos_"]').forEach((input) => {
+  if (!selecoesAnteriores[input.name]) selecoesAnteriores[input.name] = [];
+  if (input.checked) selecoesAnteriores[input.name].push(input.value);
+});
+
+// Atualiza os pedidos (recria os elementos)
+atualizarPedidos();
+
+// Reaplica os acompanhamentos marcados
+setTimeout(() => {
+  for (const nome in selecoesAnteriores) {
+    selecoesAnteriores[nome].forEach((valor) => {
+      const selector = `input[name="${nome}"][value="${valor}"]`;
+      const input = document.querySelector(selector);
+      if (input) input.checked = true;
+    });
+  }
+}, 50);
+
   </script>
 
   <footer class="bottom-footer">
