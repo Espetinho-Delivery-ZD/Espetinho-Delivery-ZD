@@ -505,128 +505,119 @@
     }
 
     function finalizarPedido() {
-      const nomeCliente = document.getElementById("numeroCliente").value.trim();
-      if (!nomeCliente) {
-        alert("Por favor, informe seu nome ou número de WhatsApp.");
-        return;
-      }
+  const nomeCliente = document.getElementById("numeroCliente").value.trim();
+  if (!nomeCliente) {
+    alert("Por favor, informe seu nome ou número de WhatsApp.");
+    return;
+  }
 
-      const endereco = document.getElementById("enderecoEntrega").value.trim();
-      if (!endereco) {
-        alert("Por favor, informe o endereço de entrega.");
-        return;
-      }
+  const endereco = document.getElementById("enderecoEntrega").value.trim();
+  if (!endereco) {
+    alert("Por favor, informe o endereço de entrega.");
+    return;
+  }
 
-      const quantidade = parseInt(document.getElementById("quantidadePedidos").value);
-      if (quantidade < 1) {
-        alert("Quantidade de espetinhos inválida.");
-        return;
-      }
+  const quantidade = parseInt(document.getElementById("quantidadePedidos").value);
+  if (quantidade < 1) {
+    alert("Quantidade de espetinhos inválida.");
+    return;
+  }
 
-      const localSelecionado = document.querySelector('input[name="localidade"]:checked');
-      if (!localSelecionado) {
-        alert("Selecione a localidade.");
-        return;
-      }
+  const localSelecionado = document.querySelector('input[name="localidade"]:checked');
+  if (!localSelecionado) {
+    alert("Selecione a localidade.");
+    return;
+  }
 
-      const pagamentoSelecionado = document.querySelector('input[name="pagamento"]:checked');
-      if (!pagamentoSelecionado) {
-        alert("Selecione a forma de pagamento.");
-        return;
-      }
+  const pagamentoSelecionado = document.querySelector('input[name="pagamento"]:checked');
+  if (!pagamentoSelecionado) {
+    alert("Selecione a forma de pagamento.");
+    return;
+  }
 
-      if (
-        pagamentoSelecionado.value === "Espécie" &&
-        !document.getElementById("trocoInput").value.trim()
-      ) {
-        alert("Informe o valor para o troco.");
-        return;
-      }
+  if (
+    pagamentoSelecionado.value === "Espécie" &&
+    !document.getElementById("trocoInput").value.trim()
+  ) {
+    alert("Informe o valor para o troco.");
+    return;
+  }
 
-      // Monta mensagem do pedido para o WhatsApp
-      let mensagem = `*Pedido Espetinho Delivery ZD*\n\n*Cliente:* ${nomeCliente}\n*Endereço:* ${endereco}\n*Localidade:* ${localSelecionado.value}\n\n`;
+  let totalPedido = 0;
 
-      let totalPedido = 0;
+  // Calcula total antes de montar a mensagem
+  for (let i = 0; i < quantidade; i++) {
+    const espeto = document.querySelector(`input[name="espeto_${i}"]:checked`);
+    const acompanhamentos = document.querySelectorAll(`input[name="acompanhamentos_${i}"]:checked`);
+    const bebidas = document.querySelectorAll(`input[name="Bebidas_${i}"]:checked`);
 
-      for (let i = 0; i < quantidade; i++) {
-        mensagem += `*Pedido ${i + 1}:*\n`;
+    if (espeto && precoEspeto[espeto.value]) totalPedido += precoEspeto[espeto.value];
+    acompanhamentos.forEach(a => {
+      if (precoAcompanhamentos[a.value]) totalPedido += precoAcompanhamentos[a.value];
+    });
+    bebidas.forEach(b => {
+      if (precoBebidas[b.value]) totalPedido += precoBebidas[b.value];
+    });
+  }
 
-        const espeto = document.querySelector(`input[name="espeto_${i}"]:checked`);
-        const arroz = document.querySelector(`input[name="arroz_${i}"]:checked`);
-        const acompanhamentos = document.querySelectorAll(`input[name="acompanhamentos_${i}"]:checked`);
-        const bebidas = document.querySelectorAll(`input[name="Bebidas_${i}"]:checked`);
+  // Taxa de entrega
+  let taxaEntrega = 0;
+  if (localSelecionado.value === "Ze Doca") {
+    taxaEntrega = quantidade >= 3 ? 0 : 2.0;
+  } else if (localSelecionado.value === "Josias") {
+    taxaEntrega = 4.0;
+  } else if (localSelecionado.value === "Boa Esperança") {
+    taxaEntrega = 6.0;
+  }
 
-        if (espeto) {
-          mensagem += `- Espeto: ${espeto.value}\n`;
-          totalPedido += precoEspeto[espeto.value] || 0;
-        } else {
-          mensagem += "- Espeto: Não selecionado\n";
-        }
+  totalPedido += taxaEntrega;
 
-        if (arroz) {
-          mensagem += `- Arroz: ${arroz.value}\n`;
-        } else {
-          mensagem += "- Arroz: Não selecionado\n";
-        }
+  // Monta mensagem do pedido para o WhatsApp no modelo solicitado
+  let mensagem = `Olá, gostaria de fazer um pedido no Espetinho Delivery ZD:\n\n`;
+  mensagem += `Nome ou Número do Cliente: ${nomeCliente}\n`;
+  mensagem += `Endereço de Entrega: ${endereco}\n`;
+  mensagem += `Localidade: ${localSelecionado.value}\n`;
+  mensagem += `Forma de Pagamento: ${pagamentoSelecionado.value}\n`;
+  mensagem += `Valor Total do Pedido: R$ ${totalPedido.toFixed(2)}\n\n`;
 
-        if (acompanhamentos.length > 0) {
-          mensagem += "- Acompanhamentos: ";
-          acompanhamentos.forEach((a, idx) => {
-            mensagem += a.value;
-            if (idx < acompanhamentos.length - 1) mensagem += ", ";
-            if (["Batata Frita", "Queijo Coalho"].includes(a.value)) {
-              totalPedido += precoAcompanhamentos[a.value] || 0;
-            }
-          });
-          mensagem += "\n";
-        } else {
-          mensagem += "- Acompanhamentos: Nenhum\n";
-        }
+  for (let i = 0; i < quantidade; i++) {
+    mensagem += `Pedido ${i + 1}:\n`;
 
-        if (bebidas.length > 0) {
-          mensagem += "- Bebidas: ";
-          bebidas.forEach((b, idx) => {
-            mensagem += b.value;
-            if (idx < bebidas.length - 1) mensagem += ", ";
-            totalPedido += precoBebidas[b.value] || 0;
-          });
-          mensagem += "\n";
-        } else {
-          mensagem += "- Bebidas: Nenhuma\n";
-        }
+    const espeto = document.querySelector(`input[name="espeto_${i}"]:checked`);
+    const arroz = document.querySelector(`input[name="arroz_${i}"]:checked`);
+    const acompanhamentos = document.querySelectorAll(`input[name="acompanhamentos_${i}"]:checked`);
+    const bebidas = document.querySelectorAll(`input[name="Bebidas_${i}"]:checked`);
 
-        mensagem += "\n";
-      }
+    mensagem += `Espeto: ${espeto ? espeto.value : "Não selecionado"}\n`;
+    mensagem += `Arroz: ${arroz ? arroz.value : "Não selecionado"}\n`;
 
-      // Taxa de entrega
-      let taxaEntrega = 0;
-      if (localSelecionado.value === "Ze Doca") {
-        taxaEntrega = quantidade >= 3 ? 0 : 2.0;
-      } else if (localSelecionado.value === "Josias") {
-        taxaEntrega = 4.0;
-      } else if (localSelecionado.value === "Boa Esperança") {
-        taxaEntrega = 6.0;
-      }
-
-      mensagem += `*Taxa de entrega:* R$ ${taxaEntrega.toFixed(2)}\n`;
-      totalPedido += taxaEntrega;
-
-      mensagem += `*Total do pedido:* R$ ${totalPedido.toFixed(2)}\n\n`;
-      mensagem += `*Forma de pagamento:* ${pagamentoSelecionado.value}\n`;
-
-      if (pagamentoSelecionado.value === "Espécie") {
-        const troco = document.getElementById("trocoInput").value.trim();
-        mensagem += `*Troco para:* ${troco}\n`;
-      }
-
-      // Formata a mensagem para URL do WhatsApp
-      const mensagemUrl = encodeURIComponent(mensagem);
-      const telefoneWhatsapp = "5598985349559"; // seu número com código do Brasil + DDD
-      const urlWhatsApp = `https://api.whatsapp.com/send?phone=${telefoneWhatsapp}&text=${mensagemUrl}`;
-
-      // Abre o WhatsApp em nova aba
-      window.open(urlWhatsApp, "_blank");
+    if (acompanhamentos.length > 0) {
+      const acompText = Array.from(acompanhamentos).map(a => a.value).join(", ");
+      mensagem += `Acompanhamentos: ${acompText}\n`;
+    } else {
+      mensagem += `Acompanhamentos: Nenhum\n`;
     }
+
+    if (bebidas.length > 0) {
+      const bebidasText = Array.from(bebidas).map(b => b.value).join(", ");
+      mensagem += `Bebidas: ${bebidasText}\n`;
+    } else {
+      mensagem += `Bebidas: Nenhuma\n`;
+    }
+
+    mensagem += `\n`;
+  }
+
+  mensagem += `Taxa de Entrega: R$ ${taxaEntrega.toFixed(2)}\n`;
+  mensagem += `Valor Total do Pedido: R$ ${totalPedido.toFixed(2)}\n`;
+
+  // Abre WhatsApp
+  const mensagemUrl = encodeURIComponent(mensagem);
+  const telefoneWhatsapp = "5598998893168"; // seu número com DDD
+  const urlWhatsApp = `https://api.whatsapp.com/send?phone=${telefoneWhatsapp}&text=${mensagemUrl}`;
+  window.open(urlWhatsApp, "_blank");
+}
+
 
     // Atualiza pedidos na carga inicial da página
     document.addEventListener("DOMContentLoaded", () => {
