@@ -581,6 +581,11 @@
   mensagem += `Endereço de Entrega: ${endereco}\n`;
   mensagem += `Localidade: ${localSelecionado.value}\n`;
   mensagem += `Forma de Pagamento: ${pagamentoSelecionado.value}\n`;
+      
+      if (pagamentoSelecionado.value === "Espécie") {
+  const trocoPara = document.getElementById("trocoInput").value.trim();
+  mensagem += `Troco para: ${trocoPara ? trocoPara : "não informado"}\n`;
+}
   mensagem += `Valor Total do Pedido: R$ ${totalPedido.toFixed(2)}\n\n`;
 
   for (let i = 0; i < quantidade; i++) {
