@@ -617,7 +617,7 @@
   }
 
   mensagem += `Taxa de Entrega: R$ ${taxaEntrega.toFixed(2)}\n`;
-  mensagem += `Valor Total do Pedido: R$ ${totalPedido.toFixed(2)}\n`;
+  mensagem += `Valor Total do Pedido(Junto com a entrega): R$ ${totalPedido.toFixed(2)}\n`;
 
   // Abre WhatsApp
   const mensagemUrl = encodeURIComponent(mensagem);
